@@ -39,16 +39,27 @@ export default function App() {
     }
     setMessage("Goodbye!");
     redirectToLogin();
-
   }
 
-  const login = ({ username, password }) => {
+  const login = (values) => {
     // ✨ implement
     // We should flush the message state, turn on the spinner
     // and launch a request to the proper endpoint.
     // On success, we should set the token to local storage in a 'token' key,
     // put the server success message in its proper state, and redirect
     // to the Articles screen. Don't forget to turn off the spinner!
+    setSpinnerOn(true);
+    axios.post(loginUrl, values)
+      .then(res => {
+        console.log(res.data)
+        localStorage.setItem('token', res.data.token);
+        setMessage(res.data.message);
+        redirectToArticles();
+        setSpinnerOn(false);
+      })
+      .catch( err => {
+        console.error("Error, whoops!", err)
+      })
   }
 
   const getArticles = () => {
@@ -91,7 +102,7 @@ export default function App() {
           <NavLink id="articlesScreen" to="/articles">Articles</NavLink>
         </nav>
         <Routes>
-          <Route path="/" element={<LoginForm />} />
+          <Route path="/" element={<LoginForm login={login}/>} />
           <Route path="articles" element={
             <>
               <ArticleForm />
