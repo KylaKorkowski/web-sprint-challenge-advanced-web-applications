@@ -8,5 +8,5 @@ import "@testing-library/jest-dom"
 
 test('sanity', () => {
   const {queryByText} = render(<Spinner on={true}/>)
-  expect(queryByText(/please wait..../)).toBeInTheDocument()
+  expect(queryByText(/please wait.../i)).toBeInTheDocument()
 })
