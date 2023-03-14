@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { NavLink, Routes, Route, useNavigate } from 'react-router-dom'
+import axios from "axios"
 import Articles from './Articles'
 import LoginForm from './LoginForm'
 import Message from './Message'
@@ -18,8 +19,14 @@ export default function App() {
 
   // ✨ Research `useNavigate` in React Router v.6
   const navigate = useNavigate()
-  const redirectToLogin = () => { /* ✨ implement */ }
-  const redirectToArticles = () => { /* ✨ implement */ }
+  const redirectToLogin = () => { 
+    /* ✨ implement */ 
+    navigate('/')
+  }
+  const redirectToArticles = () => { 
+    /* ✨ implement */ 
+    navigate('/articles')
+  }
 
   const logout = () => {
     // ✨ implement
@@ -27,6 +34,12 @@ export default function App() {
     // and a message saying "Goodbye!" should be set in its proper state.
     // In any case, we should redirect the browser back to the login screen,
     // using the helper above.
+    if(localStorage.getItem("token")){
+      localStorage.removeItem("token")
+    }
+    setMessage("Goodbye!");
+    redirectToLogin();
+
   }
 
   const login = ({ username, password }) => {
